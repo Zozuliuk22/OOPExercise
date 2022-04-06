@@ -13,11 +13,17 @@ namespace OOPExercise
 
             //Get player's name
             var player = new Player("Viktor");            
+                       
+            scenario.InitialiseBeggarsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.xml");
+            
+            //for (int i = 0; i < 50; i++)
+            //    Console.WriteLine(scenario.CreateRandomGuildMeeting());
 
             do
             {
                 ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);
                 var meeting = scenario.CreateRandomGuildMeeting();
+                Console.WriteLine(meeting);
                 ConsoleViewer.ShowChoose();
                 var choice = Console.ReadLine();
                 if (choice == "1")

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,29 +14,15 @@ namespace AnkhMorpork
         protected internal Guild()
         {
             Npcs = new List<Npc>();
-        }
+        }        
 
-        protected internal virtual void CreateNpc()
+        protected internal virtual Npc GetNpc()
         {
-            throw new NotImplementedException();
+            if (!Npcs.Equals(null) && Npcs.Count > 0)
+                return Npcs[0];
+            else
+                throw new ArgumentNullException("No one NPC was created.");
         }
-
-        protected internal virtual void CreateNpc(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected internal virtual void CreateNpcs(IEnumerable<Npc> npcs)
-        {
-            throw new NotImplementedException();
-        }
-        
-        protected virtual bool ExistsNpc(Npc npc)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected internal abstract string GetNpc();
 
         protected internal abstract void PlayGame(Player player);
 

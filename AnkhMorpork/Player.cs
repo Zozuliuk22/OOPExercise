@@ -9,22 +9,13 @@ namespace AnkhMorpork
     public class Player
     {
         private const decimal _startBudget = 100;
-        private bool _isAlive = true;
         private int _score = 0;
 
         public string Name { get; set; }
 
         public int Score { get { return _score; } }
 
-        public bool IsAlive 
-        {
-            get 
-            { 
-                if(CurrentBudget <= 0)
-                    _isAlive = false;
-                return _isAlive;
-            }
-        }
+        public bool IsAlive { get; private set; }
 
         public decimal CurrentBudget { get; private set; }
 
@@ -32,6 +23,7 @@ namespace AnkhMorpork
         {
             Name = name;
             CurrentBudget = _startBudget;
+            IsAlive = true;
         }
 
         public void EarnMoney(decimal bonus)
@@ -48,7 +40,7 @@ namespace AnkhMorpork
 
         public void ToDie()
         {
-            _isAlive = false;
+            IsAlive = false;
         }
 
         public override string ToString()

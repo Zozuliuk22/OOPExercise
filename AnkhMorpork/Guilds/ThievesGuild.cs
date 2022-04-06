@@ -26,16 +26,14 @@ namespace AnkhMorpork
         protected internal void AddTheft()
         {
             CurrentNumberThefts += 1;            
-        }
-
-        protected internal override string GetNpc()
-        {
-            return "The member of Thieves' Guild is unknown.";
-        }
+        }       
 
         protected internal override void PlayGame(Player player)
         {
-            player.LoseMoney(DefaultFee);
+            if (player.CurrentBudget >= DefaultFee)
+                player.LoseMoney(DefaultFee);
+            else
+                player.ToDie();
         }
 
         public override string ToString()
