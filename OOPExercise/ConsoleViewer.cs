@@ -16,7 +16,7 @@ namespace OOPExercise
         internal static void ShowCurrentBudget(decimal budget)
         {
             Console.WriteLine($"Current budget: {Math.Truncate(budget)} AM$ " +
-                $"{Math.Truncate((budget - Math.Truncate(budget)) * 100)} pence");
+                $"{String.Format("{0 : 00}", Math.Truncate(budget * 100 % 100))} pence");
         }
 
         internal static void ShowChoose()

@@ -14,8 +14,9 @@ namespace OOPExercise
             //Get player's name
             var player = new Player("Viktor");            
                        
-            scenario.InitialiseBeggarsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.xml");
-            
+            scenario.InitialiseBeggarsGuild(@"");
+            scenario.InitialiseFoolsGuild(@"");
+
             //for (int i = 0; i < 50; i++)
             //    Console.WriteLine(scenario.CreateRandomGuildMeeting());
 

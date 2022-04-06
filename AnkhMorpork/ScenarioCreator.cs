@@ -13,6 +13,7 @@ namespace AnkhMorpork
     {
         private readonly ThievesGuild _thievesGuild;
         private readonly BeggarsGuild _beggarsGuild;
+        private readonly FoolsGuild _foolsGuild;
 
         private Meeting _currentMeeting;
 
@@ -22,6 +23,7 @@ namespace AnkhMorpork
         {
             _thievesGuild = new ThievesGuild();
             _beggarsGuild = new BeggarsGuild();
+            _foolsGuild = new FoolsGuild();
 
             _methodsCreateGuild = typeof(ScenarioCreator)
                 .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
@@ -72,6 +74,32 @@ namespace AnkhMorpork
             }
         }
 
+        public void InitialiseFoolsGuild(string path)
+        {
+            /*if (path.EndsWith(".xml"))
+            {
+                var list = DataLoader.LoadNpcsFromXml<BeggarNpc>(path);
+                _beggarsGuild.CreateNpcs(list);
+            }*/
+
+            var list = DataLoader.CreateFoolsConstants();
+            _foolsGuild.CreateNpcs(list);
+        }
+
+        private string CreateFoolsGuildMeeting()
+        {
+            try
+            {
+                _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetNpc());
+                return _currentMeeting.ToString();
+            }
+            catch (Exception ex)
+            {
+                _currentMeeting = null;
+                return ex.Message;
+            }
+        }
+
         public string CreateRandomGuildMeeting()
         {
             var meeting = _methodsCreateGuild[new Random().Next(0, _methodsCreateGuild.Count)].Invoke(this, null).ToString();
@@ -86,6 +114,8 @@ namespace AnkhMorpork
                 _thievesGuild.PlayGame(player);
             if(_currentMeeting.Guild is BeggarsGuild)
                 _beggarsGuild.PlayGame(player);
+            if(_currentMeeting.Guild is FoolsGuild)
+                _foolsGuild.PlayGame(player);
         }
 
         public void Skip(Player player)
@@ -94,6 +124,8 @@ namespace AnkhMorpork
                 _thievesGuild.LoseGame(player);
             if (_currentMeeting.Guild is BeggarsGuild)
                 _beggarsGuild.LoseGame(player);
+            if (_currentMeeting.Guild is FoolsGuild)
+                _foolsGuild.LoseGame(player);
         }
     }
 }

@@ -69,7 +69,13 @@ namespace AnkhMorpork.NPCs
 
         public override string ToString()
         {
-            return $"I'm {Name} and I'm one of {FullPracticeName}";
+            if (Practice is BeggarsPractice.BeerNeeders)
+                return $"I'm {Name} and I'm one of {FullPracticeName}" +
+                    $"\nAll that I need it's only some beer." +
+                    $"If you haven't, so it's sad.";
+            else
+                return $"I'm {Name} and I'm one of {FullPracticeName}" +
+                    $"\nGive me {String.Format("{0 : 0.00}", Fee)} AM$. Or I will chase you to death.";
         }
 
         public override int GetHashCode()

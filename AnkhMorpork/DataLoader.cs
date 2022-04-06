@@ -43,5 +43,21 @@ namespace AnkhMorpork
                 new BeggarNpc("Mohsin", Enums.BeggarsPractice.BeerNeeders)
             };
         }
+
+        internal static IEnumerable<FoolNpc> CreateFoolsConstants()
+        {
+            return new List<FoolNpc>()
+            {
+                new FoolNpc("Dillon", Enums.FoolsPractice.Muggins),
+                new FoolNpc("Zoey", Enums.FoolsPractice.Gull),
+                new FoolNpc("Humphrey", Enums.FoolsPractice.Dupe),
+                new FoolNpc("Stephan", Enums.FoolsPractice.Butt),
+                new FoolNpc("Chloe-Louise", Enums.FoolsPractice.Fool),
+                new FoolNpc("Montel", Enums.FoolsPractice.Tomfool),
+                new FoolNpc("Lynn", Enums.FoolsPractice.StupidFool),
+                new FoolNpc("Iylah", Enums.FoolsPractice.ArchFool),
+                new FoolNpc("Jozef", Enums.FoolsPractice.CompleteFool)
+            };
+        }
     }
 }

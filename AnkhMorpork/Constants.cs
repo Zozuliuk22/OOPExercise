@@ -23,5 +23,18 @@ namespace AnkhMorpork
             { BeggarsPractice.TuppenceForTea, ("People Who Need Tuppence For A Cup Of Tea", 0.02m) },
             { BeggarsPractice.BeerNeeders, ("People With Placards Saying \"Why lie ? I need a beer.\"", 0) }
         };
+
+        internal static readonly Dictionary<FoolsPractice, (string, decimal)> FoolsPracticeInfo = new()
+        {
+            { FoolsPractice.Muggins, ("Muggins", 0.5m) },
+            { FoolsPractice.Gull, ("Gull", 1) },
+            { FoolsPractice.Dupe, ("Dupe", 2) },
+            { FoolsPractice.Butt, ("Butt", 3) },
+            { FoolsPractice.Fool, ("Fool", 5) },
+            { FoolsPractice.Tomfool , ("Tomfool", 6) },
+            { FoolsPractice.StupidFool, ("Stupid Fool", 7) },
+            { FoolsPractice.ArchFool, ("Arch Fool", 8) },
+            { FoolsPractice.CompleteFool, ("Complete Fool", 10) }
+        };
     }
 }
