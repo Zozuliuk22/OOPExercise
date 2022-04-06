@@ -12,15 +12,13 @@ namespace OOPExercise
             ConsoleViewer.ShowWelcomeWord();
 
             //Get player's name
-            var player = new Player("Viktor");            
-                       
-            scenario.InitialiseBeggarsGuild(@"");
-            scenario.InitialiseFoolsGuild(@"");
-            scenario.InitialiseAssassinsGuild(@"");
+            var player = new Player("Viktor");
+
+            scenario.InitialiseAssassinsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\assassins.json");                       
+            scenario.InitialiseBeggarsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.json");
+            scenario.InitialiseFoolsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\fools.json");           
 
 
-            //for (int i = 0; i < 50; i++)
-            //    Console.WriteLine(scenario.CreateRandomGuildMeeting());
 
             do
             {

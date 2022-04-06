@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AnkhMorpork.NPCs;
+using Newtonsoft.Json.Linq;
 
 namespace AnkhMorpork.Guilds
 {
@@ -44,6 +45,16 @@ namespace AnkhMorpork.Guilds
         {
             foreach (AssassinNpc assassin in npcs)
             {
+                if (!ExistsNpc(assassin))
+                    Npcs.Add(assassin);
+            }
+        }
+
+        protected internal void CreateNpcs(JArray npcs)
+        {
+            foreach (JObject npc in npcs.Children<JObject>())
+            {
+                var assassin = new AssassinNpc(npc.GetValue("Name").ToString());
                 if (!ExistsNpc(assassin))
                     Npcs.Add(assassin);
             }

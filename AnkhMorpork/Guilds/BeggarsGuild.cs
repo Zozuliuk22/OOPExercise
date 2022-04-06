@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AnkhMorpork.NPCs;
 using AnkhMorpork.Enums;
+using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,17 @@ namespace AnkhMorpork.Guilds
                 if (!ExistsNpc(beggar))
                     Npcs.Add(beggar);
             }              
+        }
+
+        protected internal void CreateNpcs(JArray npcs)
+        {
+            foreach (JObject npc in npcs.Children<JObject>())
+            {
+                var practice = (BeggarsPractice)Enum.Parse(typeof(BeggarsPractice), npc.GetValue("Practice").ToString());
+                var beggar = new BeggarNpc(npc.GetValue("Name").ToString(), practice);
+                if (!ExistsNpc(beggar))
+                    Npcs.Add(beggar);
+            }
         }
 
         protected internal bool ExistsNpc(Npc npc)

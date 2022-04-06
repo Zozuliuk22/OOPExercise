@@ -52,14 +52,10 @@ namespace AnkhMorpork
 
         public void InitialiseBeggarsGuild(string path)
         {
-            /*if (path.EndsWith(".xml"))
+            if (path.EndsWith(".json"))
             {
-                var list = DataLoader.LoadNpcsFromXml<BeggarNpc>(path);
-                _beggarsGuild.CreateNpcs(list);
-            }*/
-
-            var list = DataLoader.CreateBeggarsConstants();
-            _beggarsGuild.CreateNpcs(list);
+                _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
         }
 
         private string CreateBeggarsGuildMeeting()
@@ -78,14 +74,10 @@ namespace AnkhMorpork
 
         public void InitialiseFoolsGuild(string path)
         {
-            /*if (path.EndsWith(".xml"))
+            if (path.EndsWith(".json"))
             {
-                var list = DataLoader.LoadNpcsFromXml<BeggarNpc>(path);
-                _beggarsGuild.CreateNpcs(list);
-            }*/
-
-            var list = DataLoader.CreateFoolsConstants();
-            _foolsGuild.CreateNpcs(list);
+                _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
         }
 
         private string CreateFoolsGuildMeeting()
@@ -104,14 +96,10 @@ namespace AnkhMorpork
 
         public void InitialiseAssassinsGuild(string path)
         {
-            /*if (path.EndsWith(".xml"))
+            if (path.EndsWith(".json"))
             {
-                var list = DataLoader.LoadNpcsFromXml<BeggarNpc>(path);
-                _beggarsGuild.CreateNpcs(list);
-            }*/
-
-            var list = DataLoader.CreateAssassinsConstants();
-            _assassinsGuild.CreateNpcs(list);
+                _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
         }
 
         private string CreateAssassinsGuildMeeting()

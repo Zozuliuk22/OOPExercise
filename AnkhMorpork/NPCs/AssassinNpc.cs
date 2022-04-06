@@ -63,7 +63,7 @@ namespace AnkhMorpork.NPCs
 
         private void SetRandomRewandRange()
         {
-            MinReward = new Random().Next(0, 15);
+            MinReward = new Random().Next(1, 16);
             MaxReward = MinReward + 10;
         }
 
