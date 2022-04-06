@@ -64,7 +64,7 @@ namespace AnkhMorpork.Guilds
         protected internal override Npc GetNpc()
         {
             if (Npcs.Equals(null) || Npcs.Count.Equals(0))
-                throw new ArgumentException("No one Beggar was created.");
+                throw new ArgumentNullException("No one Beggar was created.");
 
             _activeNpc = Npcs[new Random().Next(0, Npcs.Count)] as BeggarNpc;
             return _activeNpc;

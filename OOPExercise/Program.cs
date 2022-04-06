@@ -16,6 +16,8 @@ namespace OOPExercise
                        
             scenario.InitialiseBeggarsGuild(@"");
             scenario.InitialiseFoolsGuild(@"");
+            scenario.InitialiseAssassinsGuild(@"");
+
 
             //for (int i = 0; i < 50; i++)
             //    Console.WriteLine(scenario.CreateRandomGuildMeeting());
@@ -27,10 +29,26 @@ namespace OOPExercise
                 Console.WriteLine(meeting);
                 ConsoleViewer.ShowChoose();
                 var choice = Console.ReadLine();
-                if (choice == "1")
-                    scenario.Accept(player);
-                if(choice == "2")
-                    scenario.Skip(player);
+
+                if (meeting.ToLower().Contains("assassin"))
+                {
+                    if (choice == "1")
+                    {
+                        Console.Write("Enter fee: ");
+                        var fee = Decimal.Parse(Console.ReadLine());
+                        scenario.SetEnteredFee(fee);
+                        scenario.Accept(player);
+                    }
+                    if (choice == "2")
+                        scenario.Skip(player);
+                }
+                else
+                {
+                    if (choice == "1")
+                        scenario.Accept(player);
+                    if (choice == "2")
+                        scenario.Skip(player);
+                }                
 
             }while(player.IsAlive);
 

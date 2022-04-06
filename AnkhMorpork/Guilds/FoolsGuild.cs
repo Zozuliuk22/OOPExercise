@@ -64,7 +64,7 @@ namespace AnkhMorpork.Guilds
         protected internal override Npc GetNpc()
         {
             if (Npcs.Equals(null) || Npcs.Count.Equals(0))
-                throw new ArgumentException("No one Fool was created.");
+                throw new ArgumentNullException("No one Fool was created.");
 
             _activeNpc = Npcs[new Random().Next(0, Npcs.Count)] as FoolNpc;
             return _activeNpc;

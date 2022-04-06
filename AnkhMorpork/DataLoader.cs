@@ -59,5 +59,17 @@ namespace AnkhMorpork
                 new FoolNpc("Jozef", Enums.FoolsPractice.CompleteFool)
             };
         }
+
+        internal static IEnumerable<AssassinNpc> CreateAssassinsConstants()
+        {
+            return new List<AssassinNpc>()
+            {
+               new AssassinNpc("Black Widow"),
+               new AssassinNpc("Mockingjay"),
+               new AssassinNpc("Lonely Barman"),
+               new AssassinNpc("Robot Arlye"),
+               new AssassinNpc("Sniper Ghost")
+            };
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace AnkhMorpork
 
         public override string ToString()
         {
-            return $"You met the {Guild}.";
+            return $"You have a meeting with the {Guild}.";
         }
     }
 }
