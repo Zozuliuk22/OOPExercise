@@ -18,8 +18,6 @@ namespace OOPExercise
             scenario.InitialiseBeggarsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.json");
             scenario.InitialiseFoolsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\fools.json");           
 
-
-
             do
             {
                 ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);

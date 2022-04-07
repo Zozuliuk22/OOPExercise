@@ -41,7 +41,8 @@ namespace AnkhMorpork.NPCs
 
         private void SetDefaultPractice()
         {
-            Practice = FoolsPractice.Muggins;
+            var practies = Enum.GetValues(typeof(FoolsPractice));
+            Practice = (FoolsPractice)practies.GetValue(new Random().Next(0, practies.Length));
             FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
             Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
         }

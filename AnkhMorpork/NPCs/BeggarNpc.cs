@@ -20,12 +20,12 @@ namespace AnkhMorpork.NPCs
 
         internal BeggarNpc() : base()
         {
-            SetDefaultPractice();
+            SetRandomPractice();
         }
 
         internal BeggarNpc(string name) : base(name)
         {
-            SetDefaultPractice();
+            SetRandomPractice();
         }
 
         internal BeggarNpc(BeggarsPractice practice) : base()
@@ -42,9 +42,10 @@ namespace AnkhMorpork.NPCs
             Fee = Constants.BeggarsPracticeInfo[Practice].Item2;
         }
 
-        private void SetDefaultPractice()
+        private void SetRandomPractice()
         {
-            Practice = BeggarsPractice.Twitchers;
+            var practies = Enum.GetValues(typeof(BeggarsPractice));
+            Practice = (BeggarsPractice)practies.GetValue(new Random().Next(0, practies.Length));
             FullPracticeName = Constants.BeggarsPracticeInfo[Practice].Item1;
             Fee = Constants.BeggarsPracticeInfo[Practice].Item2;
         }
