@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 
 namespace AnkhMorpork
 {
@@ -11,14 +6,15 @@ namespace AnkhMorpork
     {
         protected internal string Name { get; private set; }
 
-        protected internal Npc()
-        {
-            Name = "Unknown";
-        }
+        protected Npc() => Name = "Unknown";
 
-        protected internal Npc(string name)
+        protected Npc(string name)
         {
+            if(String.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException($"The NPC's name must consist of symbols.");
             Name = name;
         }
+
+        public override string ToString() => Name ?? "Unknown";
     }
 }

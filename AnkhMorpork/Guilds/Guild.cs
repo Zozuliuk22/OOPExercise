@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnkhMorpork
 {
@@ -11,10 +7,11 @@ namespace AnkhMorpork
     {
         protected List<Npc> Npcs;
 
-        protected internal Guild()
-        {
-            Npcs = new List<Npc>();
-        }        
+        protected Guild() => Npcs = new List<Npc>();
+
+        protected internal virtual string WelcomeMessage => String.Empty;
+
+        protected internal virtual ConsoleColor GuildColor => ConsoleColor.White;
 
         protected internal virtual Npc GetNpc()
         {
@@ -24,11 +21,13 @@ namespace AnkhMorpork
                 throw new ArgumentNullException("No one NPC was created.");
         }
 
-        protected internal abstract void PlayGame(Player player);
+        protected internal abstract string PlayGame(Player player);
 
-        protected internal virtual void LoseGame(Player player)
+        protected internal virtual string LoseGame(Player player)
         {
-            player.ToDie();
+            if(player is null)
+                throw new ArgumentNullException(nameof(player), "The player value cannot be null.");
+            return player.ToDie();
         }
     }
 }

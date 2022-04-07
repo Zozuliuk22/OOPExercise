@@ -5,48 +5,61 @@ namespace OOPExercise
 {
     internal class Program
     {
+        private const string _pathToAssassinsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\assassins.json";
+        private const string _pathToBeggarsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.json";
+        private const string _pathToFoolsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\fools.json";
+
+
         static void Main(string[] args)
         {
-            var scenario = new ScenarioCreator();
-
             ConsoleViewer.ShowWelcomeWord();
+            var name = ConsoleViewer.GetPlayerName();
 
-            //Get player's name
-            var player = new Player("Viktor");
-
-            scenario.InitialiseAssassinsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\assassins.json");                       
-            scenario.InitialiseBeggarsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.json");
-            scenario.InitialiseFoolsGuild(@"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\fools.json");           
+            var scenario = new ScenarioCreator();
+            var player = new Player(name);
+            
+            try
+            {
+                scenario.InitialiseAssassinsGuild(_pathToAssassinsJsonFile);
+                scenario.InitialiseBeggarsGuild(_pathToBeggarsJsonFile);
+                scenario.InitialiseFoolsGuild(_pathToFoolsJsonFile);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }                     
 
             do
             {
-                ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);
                 var meeting = scenario.CreateRandomGuildMeeting();
-                Console.WriteLine(meeting);
-                ConsoleViewer.ShowChoose();
-                var choice = Console.ReadLine();
+                
+                ConsoleViewer.ShowMeetingWelcomeInfo(meeting);
+                ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);
 
-                if (meeting.ToLower().Contains("assassin"))
+                if (meeting.WelcomeMessage.ToLower().Contains("beer"))
                 {
-                    if (choice == "1")
-                    {
-                        Console.Write("Enter fee: ");
-                        var fee = Decimal.Parse(Console.ReadLine());
-                        scenario.SetEnteredFee(fee);
-                        scenario.Accept(player);
-                    }
-                    if (choice == "2")
-                        scenario.Skip(player);
+                    Console.WriteLine($"Sorry, {player.Name}. But I relly need only beer.");
+                    ConsoleViewer.ShowMeetingResultInfo(scenario.Skip(player));
                 }
                 else
                 {
-                    if (choice == "1")
-                        scenario.Accept(player);
-                    if (choice == "2")
-                        scenario.Skip(player);
-                }                
+                    ConsoleViewer.ShowChoose();
+                    var choice = ConsoleViewer.GetChoice();
 
-            }while(player.IsAlive);
+                    if (choice == 1)
+                    {
+                        if (meeting.ToString().ToLower().Contains("assassin"))
+                        {                            
+                            var fee = ConsoleViewer.GetEnteredFee(player);
+                            scenario.UseEnteredFee(fee);
+                        }
+                        ConsoleViewer.ShowMeetingResultInfo(scenario.Accept(player));
+                    }
+                    if (choice == 2)
+                        ConsoleViewer.ShowMeetingResultInfo(scenario.Skip(player));
+                }
+
+            } while(player.IsAlive);
 
             ConsoleViewer.ShowScore(player.ToString());
 

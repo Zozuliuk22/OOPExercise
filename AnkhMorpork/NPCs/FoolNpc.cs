@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AnkhMorpork.Enums;
 
 namespace AnkhMorpork.NPCs
@@ -17,64 +13,64 @@ namespace AnkhMorpork.NPCs
 
         internal FoolNpc() : base()
         {
-            SetDefaultPractice();
+            SetRandomPractice();
+            SetPracticeInfo();
         }
 
         internal FoolNpc(string name) : base(name)
         {
-            SetDefaultPractice();
+            SetRandomPractice();
+            SetPracticeInfo();
         }
 
         internal FoolNpc(FoolsPractice practice) : base()
         {
             Practice = practice;
-            FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
-            Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
+            SetPracticeInfo();
         }
 
         internal FoolNpc(string name, FoolsPractice practice) : base(name)
         {
-            Practice = practice;
-            FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
-            Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
-        }
 
-        private void SetDefaultPractice()
-        {
-            var practies = Enum.GetValues(typeof(FoolsPractice));
-            Practice = (FoolsPractice)practies.GetValue(new Random().Next(0, practies.Length));
-            FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
-            Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
-        }
+            Practice = practice;
+            SetPracticeInfo();
+        }        
 
         public override bool Equals(object obj)
         {
             return Equals(obj as FoolNpc);
         }
 
-        public bool Equals(FoolNpc fool)
+        private bool Equals(FoolNpc other)
         {
-            if (fool is null)
+            if (other is null)
                 return false;
             else
             {
-                if (fool.Name.Equals(Name)
-                    && fool.Practice.Equals(Practice))
+                if (other.Name.Equals(Name)
+                    && other.Practice.Equals(Practice))
                     return true;
                 return false;
             }
         }
 
-        public override string ToString()
-        {
-            return $"I'm {Name} and I'm one of {FullPracticeName} practice." +
-                $"\nIf you wanna earn some money, I can pay you {Math.Truncate(Bonus)} AM$ {String.Format("{0 : 00}", Math.Truncate(Bonus * 100 % 100))} pence." +
-                $"\nBut you must has to pretend to be a fool.";
-        }
-
         public override int GetHashCode()
         {
             return HashCode.Combine(Name, Practice);
+        }
+
+        public override string ToString() => $"{Name} from {FullPracticeName}s";
+
+        private void SetRandomPractice()
+        {
+            var practies = Enum.GetValues(typeof(FoolsPractice));
+            Practice = (FoolsPractice)practies.GetValue(new Random().Next(0, practies.Length));            
+        }
+
+        private void SetPracticeInfo()
+        {
+            FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
+            Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
         }
     }
 }

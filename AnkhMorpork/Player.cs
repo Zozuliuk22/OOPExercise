@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnkhMorpork
 {
@@ -13,7 +9,7 @@ namespace AnkhMorpork
 
         public string Name { get; set; }
 
-        public int Score { get { return _score; } }
+        public int Score => _score;
 
         public bool IsAlive { get; private set; }
 
@@ -21,6 +17,9 @@ namespace AnkhMorpork
 
         public Player(string name)
         {
+            if(String.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException("The Player's name must consist of symbols.");
+
             Name = name;
             CurrentBudget = _startBudget;
             IsAlive = true;
@@ -29,7 +28,7 @@ namespace AnkhMorpork
         public void EarnMoney(decimal bonus)
         {
             CurrentBudget += bonus;
-            _score += 1;
+            _score += 1;            
         }
 
         public void LoseMoney(decimal fee)
@@ -38,14 +37,12 @@ namespace AnkhMorpork
             _score += 1;
         }
 
-        public void ToDie()
+        public string ToDie()
         {
             IsAlive = false;
+            return "You were killed!";
         }
 
-        public override string ToString()
-        {
-            return $"Player {Name} have survived {Score} meetings.";
-        }
+        public override string ToString() => $"Player {Name} have survived {Score} meetings.";
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
 using AnkhMorpork.Guilds;
-using AnkhMorpork.NPCs;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnkhMorpork
 {
@@ -17,8 +14,8 @@ namespace AnkhMorpork
         private readonly AssassinsGuild _assassinsGuild;
 
         private Meeting _currentMeeting;
-
         private List<MethodInfo> _methodsCreateGuild;
+
 
         public ScenarioCreator()
         {
@@ -31,9 +28,44 @@ namespace AnkhMorpork
                 .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(m => m.Name.StartsWith("Create"))
                 .ToList();
+        }        
+
+        public void InitialiseBeggarsGuild(string path)
+        {
+            if (path.EndsWith(".json"))
+            {
+                _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
+            else
+                throw new ArgumentException("The path to the file is not correct.");
+        }        
+
+        public void InitialiseFoolsGuild(string path)
+        {
+            if (path.EndsWith(".json"))
+            {
+                _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
+            else
+                throw new ArgumentException("The path to the file is not correct.");
+        }        
+
+        public void InitialiseAssassinsGuild(string path)
+        {
+            if (path.EndsWith(".json"))
+            {
+                _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
+            }
+            else
+                throw new ArgumentException("The path to the file is not correct.");
+        }       
+
+        public Meeting CreateRandomGuildMeeting()
+        {
+            return (Meeting)_methodsCreateGuild[new Random().Next(0, _methodsCreateGuild.Count)].Invoke(this, null);  
         }
 
-        private string CreateThievesGuildMeeting()
+        private Meeting CreateThievesGuildMeeting()
         {
             _thievesGuild.AddTheft();
 
@@ -46,111 +78,66 @@ namespace AnkhMorpork
             else
             {
                 _currentMeeting = new Meeting(_thievesGuild);
-                return _currentMeeting.ToString();
-            }           
+                return _currentMeeting;
+            }
         }
 
-        public void InitialiseBeggarsGuild(string path)
+        private Meeting CreateBeggarsGuildMeeting()
         {
-            if (path.EndsWith(".json"))
-            {
-                _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
+            _currentMeeting = new Meeting(_beggarsGuild, _beggarsGuild.GetNpc());
+            return _currentMeeting;
         }
 
-        private string CreateBeggarsGuildMeeting()
+        private Meeting CreateAssassinsGuildMeeting()
         {
-            try
-            {
-                _currentMeeting = new Meeting(_beggarsGuild, _beggarsGuild.GetNpc());
-                return _currentMeeting.ToString();
-            }
-            catch (Exception ex)
-            {
-                _currentMeeting = null;
-                return ex.Message;
-            }
+            _currentMeeting = new Meeting(_assassinsGuild);
+            return _currentMeeting;
         }
 
-        public void InitialiseFoolsGuild(string path)
+        private Meeting CreateFoolsGuildMeeting()
         {
-            if (path.EndsWith(".json"))
-            {
-                _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
+            _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetNpc());
+            return _currentMeeting;
         }
 
-        private string CreateFoolsGuildMeeting()
-        {
-            try
-            {
-                _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetNpc());
-                return _currentMeeting.ToString();
-            }
-            catch (Exception ex)
-            {
-                _currentMeeting = null;
-                return ex.Message;
-            }
-        }
-
-        public void InitialiseAssassinsGuild(string path)
-        {
-            if (path.EndsWith(".json"))
-            {
-                _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
-        }
-
-        private string CreateAssassinsGuildMeeting()
-        {
-            try
-            {
-                _currentMeeting = new Meeting(_assassinsGuild);
-                return _currentMeeting.ToString();
-            }
-            catch (Exception ex)
-            {
-                _currentMeeting = null;
-                return ex.Message;
-            }
-        }
-
-        public string CreateRandomGuildMeeting()
-        {
-            var meeting = _methodsCreateGuild[new Random().Next(0, _methodsCreateGuild.Count)].Invoke(this, null).ToString();
-            if(_currentMeeting.Npc is not null)
-                meeting += "\n" + _currentMeeting.Npc.ToString();
-            return meeting;            
-        }
-
-        public void Accept(Player player)
+        public string Accept(Player player)
         {
             if (_currentMeeting.Guild is ThievesGuild)
-                _thievesGuild.PlayGame(player);
+                return _thievesGuild.PlayGame(player);
+
             if(_currentMeeting.Guild is BeggarsGuild)
-                _beggarsGuild.PlayGame(player);
+                return _beggarsGuild.PlayGame(player);
+
             if(_currentMeeting.Guild is FoolsGuild)
-                _foolsGuild.PlayGame(player);
+                return _foolsGuild.PlayGame(player);
+
             if (_currentMeeting.Guild is AssassinsGuild)
-                _assassinsGuild.PlayGame(player);
+                return _assassinsGuild.PlayGame(player);
+
+            return "This is unknown guild.";
         }
 
-        public void Skip(Player player)
+        public string Skip(Player player)
         {
             if (_currentMeeting.Guild is ThievesGuild)
-                _thievesGuild.LoseGame(player);
+                return _thievesGuild.LoseGame(player);
+
             if (_currentMeeting.Guild is BeggarsGuild)
-                _beggarsGuild.LoseGame(player);
+                return _beggarsGuild.LoseGame(player);
+
             if (_currentMeeting.Guild is FoolsGuild)
-                _foolsGuild.LoseGame(player);
+                return _foolsGuild.LoseGame(player);
+
             if (_currentMeeting.Guild is AssassinsGuild)
-                _assassinsGuild.LoseGame(player);
+                return _assassinsGuild.LoseGame(player);
+
+            return "This is unknown guild.";
         }
 
-        public void SetEnteredFee(decimal fee)
+        public void UseEnteredFee(decimal fee)
         {
             var guild = _currentMeeting.Guild as AssassinsGuild;
+
             if(guild is not null)
             {
                 if (guild.CheckContract(fee))
