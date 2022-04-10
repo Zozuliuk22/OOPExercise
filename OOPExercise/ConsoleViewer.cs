@@ -39,7 +39,7 @@ namespace OOPExercise
             Console.Write("\n\n");
         }
 
-        internal static void ShowChoose()
+        internal static void ShowChoice()
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -77,23 +77,33 @@ namespace OOPExercise
             return name;
         }
 
-        internal static void ShowScore(string score)
+        internal static void ShowScore(Player player)
         {
+            if (player is null)
+                throw new ArgumentNullException("The player value cannot be null.");
+
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\t\t" + score);
+            Console.WriteLine("\t\t" + player.ToString());
             Console.ForegroundColor= ConsoleColor.White;
-        }   
-        
+        }         
+
         internal static void ShowMeetingWelcomeInfo(Meeting meeting)
         {
             if(meeting is null)
                 throw new ArgumentNullException("The meeting value cannot be null.");
 
             Console.Write("\nYou go along the streets of Ankh-Morpork and ... ");
-            Console.ForegroundColor= meeting.MessageColor;
+            Console.ForegroundColor= meeting.Guild.GuildColor;
             Console.WriteLine(meeting);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n" + meeting.WelcomeMessage);                       
+            Console.WriteLine("\n" + meeting.Guild.WelcomeMessage); 
+
+            if(meeting.Npc is not null)
+            {
+                Console.ForegroundColor = meeting.Guild.GuildColor;
+                Console.WriteLine("\n" + meeting.Npc.ToString());
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         internal static void ShowMeetingResultInfo(string result)

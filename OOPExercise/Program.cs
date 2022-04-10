@@ -1,15 +1,13 @@
 ﻿using System;
 using AnkhMorpork;
+using AnkhMorpork.Guilds;
+using AnkhMorpork.NPCs;
+using AnkhMorpork.Enums;
 
 namespace OOPExercise
 {
     internal class Program
     {
-        private const string _pathToAssassinsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\assassins.json";
-        private const string _pathToBeggarsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\beggars.json";
-        private const string _pathToFoolsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\OOPExercise\InputData\fools.json";
-
-
         static void Main(string[] args)
         {
             ConsoleViewer.ShowWelcomeWord();
@@ -20,9 +18,7 @@ namespace OOPExercise
             
             try
             {
-                scenario.InitialiseAssassinsGuild(_pathToAssassinsJsonFile);
-                scenario.InitialiseBeggarsGuild(_pathToBeggarsJsonFile);
-                scenario.InitialiseFoolsGuild(_pathToFoolsJsonFile);
+                scenario.InitialiseAllGuilds();
             }
             catch(Exception ex)
             {
@@ -36,19 +32,19 @@ namespace OOPExercise
                 ConsoleViewer.ShowMeetingWelcomeInfo(meeting);
                 ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);
 
-                if (meeting.WelcomeMessage.ToLower().Contains("beer"))
+                if (meeting.Guild is BeggarsGuild && ((BeggarNpc)meeting.Npc).Practice.Equals(BeggarsPractice.BeerNeeders))
                 {
-                    Console.WriteLine($"Sorry, {player.Name}. But I relly need only beer.");
+                    Console.WriteLine(meeting.Npc.ToString());
                     ConsoleViewer.ShowMeetingResultInfo(scenario.Skip(player));
                 }
                 else
                 {
-                    ConsoleViewer.ShowChoose();
+                    ConsoleViewer.ShowChoice();
                     var choice = ConsoleViewer.GetChoice();
 
                     if (choice == 1)
                     {
-                        if (meeting.ToString().ToLower().Contains("assassin"))
+                        if (meeting.Guild is AssassinsGuild)
                         {                            
                             var fee = ConsoleViewer.GetEnteredFee(player);
                             scenario.UseEnteredFee(fee);
@@ -61,7 +57,7 @@ namespace OOPExercise
 
             } while(player.IsAlive);
 
-            ConsoleViewer.ShowScore(player.ToString());
+            ConsoleViewer.ShowScore(player);
 
             Console.ReadKey();
         }

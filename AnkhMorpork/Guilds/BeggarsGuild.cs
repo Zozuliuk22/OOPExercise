@@ -2,111 +2,67 @@
 using System.Collections.Generic;
 using AnkhMorpork.NPCs;
 using AnkhMorpork.Enums;
+using AnkhMorpork.Builders;
 using Newtonsoft.Json.Linq;
 
 namespace AnkhMorpork.Guilds
 {
-    internal class BeggarsGuild : Guild
+    public class BeggarsGuild : Guild
     {
         private BeggarNpc _activeNpc;
 
-        protected internal override string WelcomeMessage
+        public override string WelcomeMessage
         {
             get => $"Please, donate some money.. Save your soul." +
                 $"\nAccept to donate a fix sum of money and make a good deed." +
                 $"\nOr if you skip us, you will chase you to death..";
         }
 
-        protected internal override ConsoleColor GuildColor => ConsoleColor.DarkGreen;
+        public override ConsoleColor GuildColor => ConsoleColor.DarkGreen;
 
-        protected internal void CreateNpc()
-        {
-            var beggar = new BeggarNpc();
-            if (!ExistsNpc(beggar))
-                Npcs.Add(beggar);
-            else
-                throw new ArgumentException("The same beggar is already exist.");
-        }
-
-        protected internal void CreateNpc(string name)
-        {
-            var beggar = new BeggarNpc(name);
-            if (!ExistsNpc(beggar))
-                Npcs.Add(beggar);
-            else
-                throw new ArgumentException("The same beggar is already exist.");
-        }
-
-        protected internal void CreateNpc(BeggarsPractice practice)
-        {
-            var beggar = new BeggarNpc(practice);
-            if (!ExistsNpc(beggar))
-                Npcs.Add(beggar);
-            else
-                throw new ArgumentException("The same beggar is already exist.");
-        }
-
-        protected internal void CreateNpc(string name, BeggarsPractice practice)
-        {
-            var beggar = new BeggarNpc(name, practice);
-            if (!ExistsNpc(beggar))
-                Npcs.Add(beggar);
-            else
-                throw new ArgumentException("The same beggar is already exist.");
-        }
-
-        protected internal void CreateNpcs(IEnumerable<Npc> npcs)
+        public void CreateNpcs(IEnumerable<Npc> npcs)
         {
             if (npcs is null)
                 throw new ArgumentNullException("The collection of NPCs cannot be null.");
 
             foreach (BeggarNpc beggar in npcs)
             {
-                if (!ExistsNpc(beggar))
-                    Npcs.Add(beggar);
-                else
+                if (Npcs.Contains(beggar))
                     throw new ArgumentException("The same beggar is already exist.");
+                else
+                    Npcs.Add(beggar);
             }              
         }
 
-        protected internal void CreateNpcs(JArray npcs)
+        public void CreateNpcs(JArray npcs)
         {
             if (npcs is null)
-                throw new ArgumentNullException("The array of NPCs cannot be null.");
+                throw new ArgumentNullException("The collection of NPCs cannot be null.");
+
+            var beggar = new BeggarBuilder();
 
             foreach (JObject npc in npcs.Children<JObject>())
             {
+                beggar.Reset();
+                beggar.SetName(npc.GetValue("Name").ToString());
                 var practice = (BeggarsPractice)Enum.Parse(typeof(BeggarsPractice), npc.GetValue("Practice").ToString());
-                var beggar = new BeggarNpc(npc.GetValue("Name").ToString(), practice);
-                if (!ExistsNpc(beggar))
-                    Npcs.Add(beggar);
-                else
+                beggar.SetPractice(practice);
+
+                if (Npcs.Contains(beggar.GetNpc()))
                     throw new ArgumentException("The same beggar is already exist.");
+                else
+                    Npcs.Add(beggar.GetNpc());
+                
             }
         }
 
-        private bool ExistsNpc(Npc npc)
+        protected internal override Npc GetActiveNpc()
         {
-            var beggar = npc as BeggarNpc;
-            if(beggar is not null)
-            {
-                foreach(BeggarNpc beggarNpc in Npcs)
-                    if(beggarNpc.Equals(beggar))
-                        return true;
-            }
-            return false;
-        }
-
-        protected internal override Npc GetNpc()
-        {
-            if (Npcs.Equals(null) || Npcs.Count.Equals(0))
-                throw new ArgumentNullException("No one Beggar was created.");
-
-            _activeNpc = Npcs[new Random().Next(0, Npcs.Count)] as BeggarNpc;
+            _activeNpc = (BeggarNpc)base.GetActiveNpc();
             return _activeNpc;
         }
 
-        protected internal override string PlayGame(Player player)
+        public override string PlayGame(Player player)
         {
             if (player is null)
                 throw new ArgumentNullException(nameof(player), "The player value cannot be null.");
@@ -119,10 +75,10 @@ namespace AnkhMorpork.Guilds
                 return $"You donated some money. Good deeds come back like a boomerang. Therefore, live on.";
             }
             else
-                return player.ToDie() + $" Unfortunately, you didn't have enough money to donate. And {GetNpc()} chased you to death.";
+                return player.ToDie() + $" Unfortunately, you didn't have enough money to donate. And {_activeNpc.Name} chased you to death.";
         }
 
-        protected internal override string LoseGame(Player player)
+        public override string LoseGame(Player player)
         {
             return base.LoseGame(player) + $" Unfortunately, beggars don't forgive deeds like this.";
         }

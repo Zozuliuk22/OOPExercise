@@ -1,6 +1,6 @@
 ﻿namespace AnkhMorpork.Enums
 {
-    internal enum FoolsPractice
+    public enum FoolsPractice
     {
         Muggins,
         Gull,

@@ -2,9 +2,9 @@
 
 namespace AnkhMorpork
 {
-    internal abstract class Npc
+    public abstract class Npc
     {
-        protected internal string Name { get; private set; }
+        public string Name { get; set; }
 
         protected Npc() => Name = "Unknown";
 
@@ -12,9 +12,10 @@ namespace AnkhMorpork
         {
             if(String.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException($"The NPC's name must consist of symbols.");
+
             Name = name;
         }
 
-        public override string ToString() => Name ?? "Unknown";
+        public override string ToString() => Name;
     }
 }

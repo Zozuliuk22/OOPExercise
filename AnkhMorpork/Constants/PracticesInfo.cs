@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using AnkhMorpork.Enums;
 
-namespace AnkhMorpork
+namespace AnkhMorpork.Constants
 {
-    internal static class Constants
+    internal static class PracticesInfo
     {
         internal static readonly Dictionary<BeggarsPractice, (string, decimal)> BeggarsPracticeInfo = new()
         {

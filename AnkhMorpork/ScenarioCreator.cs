@@ -1,5 +1,6 @@
 ﻿using System;
 using AnkhMorpork.Guilds;
+using AnkhMorpork.Constants;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,35 +31,12 @@ namespace AnkhMorpork
                 .ToList();
         }        
 
-        public void InitialiseBeggarsGuild(string path)
+        public void InitialiseAllGuilds()
         {
-            if (path.EndsWith(".json"))
-            {
-                _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
-            else
-                throw new ArgumentException("The path to the file is not correct.");
-        }        
-
-        public void InitialiseFoolsGuild(string path)
-        {
-            if (path.EndsWith(".json"))
-            {
-                _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
-            else
-                throw new ArgumentException("The path to the file is not correct.");
-        }        
-
-        public void InitialiseAssassinsGuild(string path)
-        {
-            if (path.EndsWith(".json"))
-            {
-                _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(path));
-            }
-            else
-                throw new ArgumentException("The path to the file is not correct.");
-        }       
+            _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToAssassinsJsonFile));
+            _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToBeggarsJsonFile));
+            _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToFoolsJsonFile));
+        }
 
         public Meeting CreateRandomGuildMeeting()
         {
@@ -84,7 +62,7 @@ namespace AnkhMorpork
 
         private Meeting CreateBeggarsGuildMeeting()
         {
-            _currentMeeting = new Meeting(_beggarsGuild, _beggarsGuild.GetNpc());
+            _currentMeeting = new Meeting(_beggarsGuild, _beggarsGuild.GetActiveNpc());
             return _currentMeeting;
         }
 
@@ -96,7 +74,7 @@ namespace AnkhMorpork
 
         private Meeting CreateFoolsGuildMeeting()
         {
-            _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetNpc());
+            _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetActiveNpc());
             return _currentMeeting;
         }
 
@@ -136,12 +114,10 @@ namespace AnkhMorpork
 
         public void UseEnteredFee(decimal fee)
         {
-            var guild = _currentMeeting.Guild as AssassinsGuild;
-
-            if(guild is not null)
+            if(_currentMeeting.Guild is AssassinsGuild)
             {
-                if (guild.CheckContract(fee))
-                    _currentMeeting.Guild.GetNpc();
+                if (((AssassinsGuild)_currentMeeting.Guild).CheckContract(fee))
+                    _currentMeeting.Guild.GetActiveNpc();
             }
         }
     }

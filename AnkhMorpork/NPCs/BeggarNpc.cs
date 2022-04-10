@@ -2,38 +2,14 @@
 using AnkhMorpork.Enums;
 
 namespace AnkhMorpork.NPCs
-{   
-    internal class BeggarNpc : Npc
+{
+    public class BeggarNpc : Npc
     {
-        protected internal BeggarsPractice Practice { get; private set; }
+        public BeggarsPractice Practice { get; set; }
 
-        protected internal decimal Fee { get; private set; }
+        public decimal Fee { get; set; }
 
-        protected internal string FullPracticeName { get; private set; }
-
-        internal BeggarNpc() : base()
-        {
-            SetRandomPractice();
-            SetPracticeInfo();
-        }
-
-        internal BeggarNpc(string name) : base(name)
-        {
-            SetRandomPractice();
-            SetPracticeInfo();
-        }
-
-        internal BeggarNpc(BeggarsPractice practice) : base()
-        {
-            Practice = practice;
-            SetPracticeInfo();
-        }
-
-        internal BeggarNpc(string name, BeggarsPractice practice) : base(name)
-        {
-            Practice = practice;
-            SetPracticeInfo();
-        }
+        public string FullPracticeName { get; set; }       
 
         public override bool Equals(object obj)
         {
@@ -42,11 +18,11 @@ namespace AnkhMorpork.NPCs
 
         private bool Equals(BeggarNpc other)
         {
-            if(other is null)
+            if (other is null)
                 return false;
             else
             {
-                if(other.Name.Equals(Name) && other.Practice.Equals(Practice))
+                if (other.Name.Equals(Name) && other.Practice.Equals(Practice))
                     return true;
                 return false;
             }
@@ -57,18 +33,13 @@ namespace AnkhMorpork.NPCs
             return HashCode.Combine(Name, Practice);
         }
 
-        public override string ToString() => $"{Name} from {FullPracticeName}";
-
-        private void SetRandomPractice()
+        public override string ToString()
         {
-            var practies = Enum.GetValues(typeof(BeggarsPractice));
-            Practice = (BeggarsPractice)practies.GetValue(new Random().Next(0, practies.Length));           
-        }
-
-        private void SetPracticeInfo()
-        {
-            FullPracticeName = Constants.BeggarsPracticeInfo[Practice].Item1;
-            Fee = Constants.BeggarsPracticeInfo[Practice].Item2;
+            return Practice.Equals(BeggarsPractice.BeerNeeders) ?
+                $"Sorry, dear friend. But I really need only beer." :
+                Fee >= 1 ?
+                $"I'm {Name} from {FullPracticeName}. And I just need {Fee} AM$" :            
+                $"I'm {Name} from {FullPracticeName}. And I just need {Math.Truncate(Fee * 100)} pence";
         }
     }
 }

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using AnkhMorpork.NPCs;
+using AnkhMorpork.Builders;
 using Newtonsoft.Json.Linq;
 
 namespace AnkhMorpork.Guilds
 {
-    internal class AssassinsGuild : Guild
+    public class AssassinsGuild : Guild
     {
         private AssassinNpc _activeNpc;
         private decimal _enteredFee;
 
-        protected internal override string WelcomeMessage
+        public override string WelcomeMessage
         {
             get => "Oops... Someone signed a contract to kill you." +
                 "\nIf you wanna survive and go on to enjoy your life, you must pay." +
@@ -19,86 +20,44 @@ namespace AnkhMorpork.Guilds
                 "\nIf you skip, so... Our member will have fulfilled a contract out on you.";
         }
 
-        protected internal override ConsoleColor GuildColor => ConsoleColor.DarkMagenta;
+        public override ConsoleColor GuildColor => ConsoleColor.DarkMagenta;
 
-        protected internal void CreateNpc()
-        {
-            var assassin = new AssassinNpc();
-            if (!ExistsNpc(assassin))
-                Npcs.Add(assassin);
-            else
-                throw new ArgumentException("The same assassin is already exist.");
-        }
-
-        protected internal void CreateNpc(string name)
-        {
-            var assassin = new AssassinNpc(name);
-            if (!ExistsNpc(assassin))
-                Npcs.Add(assassin);
-            else
-                throw new ArgumentException("The same assassin is already exist.");
-        }
-
-        protected internal void CreateNpc(int minReward, int maxReward)
-        {
-            var assassin = new AssassinNpc(minReward, maxReward);
-            if (!ExistsNpc(assassin))
-                Npcs.Add(assassin);
-            else
-                throw new ArgumentException("The same assassin is already exist.");
-        }
-
-        protected internal void CreateNpc(string name, int minReward, int maxReward)
-        {
-            var assassin = new AssassinNpc(name, minReward, maxReward);
-            if (!ExistsNpc(assassin))
-                Npcs.Add(assassin);
-            else
-                throw new ArgumentException("The same assassin is already exist.");
-        }
-
-        protected internal void CreateNpcs(IEnumerable<Npc> npcs)
+        public void CreateNpcs(IEnumerable<Npc> npcs)
         {
             if (npcs is null)
                 throw new ArgumentNullException("The collection of NPCs cannot be null.");
 
             foreach (AssassinNpc assassin in npcs)
             {
-                if (!ExistsNpc(assassin))
-                    Npcs.Add(assassin);
-                else
+                if (Npcs.Contains(assassin))
                     throw new ArgumentException("The same assassin is already exist.");
+                else
+                    Npcs.Add(assassin);
             }
         }
 
-        protected internal void CreateNpcs(JArray npcs)
+        public void CreateNpcs(JArray npcs)
         {
             if(npcs is null)
                 throw new ArgumentNullException("The array of NPCs cannot be null.");
 
+            var assassin = new AssassinBuilder();
+
             foreach (JObject npc in npcs.Children<JObject>())
             {
-                var assassin = new AssassinNpc(npc.GetValue("Name").ToString());
-                if (!ExistsNpc(assassin))
-                    Npcs.Add(assassin);
-                else
+                assassin.Reset();
+                assassin.SetName(npc.GetValue("Name").ToString());
+                assassin.SetRandomRewandRange();
+
+                if (Npcs.Contains(assassin.GetNpc()))
                     throw new ArgumentException("The same assassin is already exist.");
+                else
+                    Npcs.Add(assassin.GetNpc());
+                
             }
         }
 
-        private bool ExistsNpc(Npc npc)
-        {
-            var assassin = npc as AssassinNpc;
-            if (assassin is not null)
-            {
-                foreach (AssassinNpc assassinNpc in Npcs)
-                    if (assassinNpc.Equals(assassin))
-                        return true;
-            }
-            return false;
-        }
-
-        protected internal bool CheckContract(decimal fee)
+        public bool CheckContract(decimal fee)
         {
             if(fee > 0)
             {
@@ -115,19 +74,18 @@ namespace AnkhMorpork.Guilds
                 return false;
 
             _enteredFee = fee;
+
             return true;
         }
 
-        protected internal override Npc GetNpc()
+        protected internal override Npc GetActiveNpc()
         {
-            if (Npcs.Equals(null) || Npcs.Count.Equals(0))
-                throw new ArgumentNullException("No one Assassin was created.");
-            else if (_activeNpc is null)
-                throw new ArgumentNullException("All assassins are occupied.");
+            if (_activeNpc.IsOccupied)
+                throw new Exception("Before this, player must enter fee and check contract.");
             return _activeNpc;
         }    
 
-        protected internal override string PlayGame(Player player)
+        public override string PlayGame(Player player)
         {
             if (player is null)
                 throw new ArgumentNullException(nameof(player), "The player value cannot be null.");
@@ -138,11 +96,11 @@ namespace AnkhMorpork.Guilds
             {
                 _activeNpc.TakeContract();
                 player.LoseMoney(_enteredFee);
-                return $"You are lucky! Assassin {GetNpc()} went to fulfill the contract.";
+                return $"You are lucky! Assassin {_activeNpc.ToString()} went to fulfill the contract.";
             }
         }
 
-        protected internal override string LoseGame(Player player)
+        public override string LoseGame(Player player)
         {
             return base.LoseGame(player) + " That's just an assassin's job.";
         }

@@ -3,38 +3,13 @@ using AnkhMorpork.Enums;
 
 namespace AnkhMorpork.NPCs
 {
-    internal class FoolNpc : Npc
+    public class FoolNpc : Npc
     {
-        protected internal FoolsPractice Practice { get; private set; }
+        public FoolsPractice Practice { get; set; }
 
-        protected internal decimal Bonus { get; private set; }
+        public decimal Bonus { get; set; }
 
-        protected internal string FullPracticeName { get; private set; }
-
-        internal FoolNpc() : base()
-        {
-            SetRandomPractice();
-            SetPracticeInfo();
-        }
-
-        internal FoolNpc(string name) : base(name)
-        {
-            SetRandomPractice();
-            SetPracticeInfo();
-        }
-
-        internal FoolNpc(FoolsPractice practice) : base()
-        {
-            Practice = practice;
-            SetPracticeInfo();
-        }
-
-        internal FoolNpc(string name, FoolsPractice practice) : base(name)
-        {
-
-            Practice = practice;
-            SetPracticeInfo();
-        }        
+        public string FullPracticeName { get; set; }        
 
         public override bool Equals(object obj)
         {
@@ -59,18 +34,11 @@ namespace AnkhMorpork.NPCs
             return HashCode.Combine(Name, Practice);
         }
 
-        public override string ToString() => $"{Name} from {FullPracticeName}s";
-
-        private void SetRandomPractice()
+        public override string ToString()
         {
-            var practies = Enum.GetValues(typeof(FoolsPractice));
-            Practice = (FoolsPractice)practies.GetValue(new Random().Next(0, practies.Length));            
-        }
-
-        private void SetPracticeInfo()
-        {
-            FullPracticeName = Constants.FoolsPracticeInfo[Practice].Item1;
-            Bonus = Constants.FoolsPracticeInfo[Practice].Item2;
-        }
+            return Bonus >= 1 ?
+                $"I'm {Name} from {FullPracticeName}s. And I can give you {Bonus} AM$" :
+                $"I'm {Name} from {FullPracticeName}s. And I can give you {Math.Truncate(Bonus * 100)} pence";
+        }       
     }
 }
