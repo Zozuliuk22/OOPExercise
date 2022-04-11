@@ -45,7 +45,10 @@ namespace AnkhMorpork.Guilds
             {
                 beggar.Reset();
                 beggar.SetName(npc.GetValue("Name").ToString());
-                var practice = (BeggarsPractice)Enum.Parse(typeof(BeggarsPractice), npc.GetValue("Practice").ToString());
+                var practice = (BeggarsPractice)Enum
+                                            .Parse(typeof(BeggarsPractice), npc
+                                            .GetValue("Practice")
+                                            .ToString());
                 beggar.SetPractice(practice);
 
                 if (Npcs.Contains(beggar.GetNpc()))
@@ -75,7 +78,8 @@ namespace AnkhMorpork.Guilds
                 return $"You donated some money. Good deeds come back like a boomerang. Therefore, live on.";
             }
             else
-                return player.ToDie() + $" Unfortunately, you didn't have enough money to donate. And {_activeNpc.Name} chased you to death.";
+                return player.ToDie() + $" Unfortunately, you didn't have enough money to donate. " +
+                    $"And {_activeNpc.Name} chased you to death.";
         }
 
         public override string LoseGame(Player player)

@@ -44,7 +44,10 @@ namespace AnkhMorpork.Guilds
             {
                 fool.Reset();
                 fool.SetName(npc.GetValue("Name").ToString());
-                var practice = (FoolsPractice)Enum.Parse(typeof(FoolsPractice), npc.GetValue("Practice").ToString());
+                var practice = (FoolsPractice)Enum
+                                            .Parse(typeof(FoolsPractice), npc
+                                            .GetValue("Practice")
+                                            .ToString());
                 fool.SetPractice(practice);
 
                 if (Npcs.Contains(fool.GetNpc()))
@@ -66,7 +69,8 @@ namespace AnkhMorpork.Guilds
                 throw new ArgumentNullException(nameof(player), "The player value cannot be null.");
 
             player.EarnMoney(_activeNpc.Bonus);
-            return $"Our congratulations! You earned some money.\nBut remember, you have to pretend to be a fool, as your friend {_activeNpc.FullPracticeName}.";
+            return $"Our congratulations! You earned some money.\nBut remember, " +
+                $"you have to pretend to be a fool, as your friend {_activeNpc.FullPracticeName}.";
         }
 
         public override string LoseGame(Player player)

@@ -1,6 +1,4 @@
 ﻿using System;
-using AnkhMorpork.Guilds;
-using AnkhMorpork.NPCs;
 
 namespace AnkhMorpork
 {

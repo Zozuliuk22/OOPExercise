@@ -23,7 +23,8 @@ namespace OOPExercise
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }                     
+                return;
+            }            
 
             do
             {
@@ -32,7 +33,8 @@ namespace OOPExercise
                 ConsoleViewer.ShowMeetingWelcomeInfo(meeting);
                 ConsoleViewer.ShowCurrentBudget(player.CurrentBudget);
 
-                if (meeting.Guild is BeggarsGuild && ((BeggarNpc)meeting.Npc).Practice.Equals(BeggarsPractice.BeerNeeders))
+                if (meeting.Guild is BeggarsGuild 
+                    && ((BeggarNpc)meeting.Npc).Practice.Equals(BeggarsPractice.BeerNeeders))
                 {
                     Console.WriteLine(meeting.Npc.ToString());
                     ConsoleViewer.ShowMeetingResultInfo(scenario.Skip(player));

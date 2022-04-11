@@ -50,7 +50,9 @@ namespace AnkhMorpork
 
         public Meeting CreateRandomGuildMeeting()
         {
-            return (Meeting)_methodsCreateGuild[new Random().Next(0, _methodsCreateGuild.Count)].Invoke(this, null);  
+            return (Meeting)_methodsCreateGuild[new Random()
+                                                    .Next(0, _methodsCreateGuild.Count)]
+                                                    .Invoke(this, null);  
         }
 
         private Meeting CreateThievesGuildMeeting()

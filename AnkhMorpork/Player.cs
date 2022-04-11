@@ -36,7 +36,8 @@ namespace AnkhMorpork
         public void LoseMoney(decimal fee)
         {
             if (fee < 0 || fee > CurrentBudget)
-                throw new ArgumentException("Fee must be bigger or equal then zero and less or equal than current budget.");
+                throw new ArgumentException("Fee must be bigger or equal then zero " +
+                                            "and less or equal than current budget.");
             CurrentBudget -= fee;
             _score += 1;
         }
