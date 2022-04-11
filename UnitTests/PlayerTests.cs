@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using AnkhMorpork;
 
-namespace TestProject1
+namespace UnitTests
 {
     public class Tests
     {

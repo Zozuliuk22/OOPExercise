@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using AnkhMorpork;
 using AnkhMorpork.Guilds;
 using AnkhMorpork.NPCs;
 using NUnit.Framework;
 
-namespace AnkhMorpork.UnitTests
+namespace UnitTests
 {
     [TestFixture]
     public class AssassinsGuildTests
