@@ -33,9 +33,19 @@ namespace AnkhMorpork
 
         public void InitialiseAllGuilds()
         {
-            _assassinsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToAssassinsJsonFile));
-            _beggarsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToBeggarsJsonFile));
-            _foolsGuild.CreateNpcs(DataLoader.LoadNpcsFromJson(Paths.pathToFoolsJsonFile));
+            var dataLoader = new DataLoader();
+
+            _assassinsGuild.CreateNpcs(
+                dataLoader.LoadNpcsFromJson(
+                    Paths.pathToAssassinsJsonFile));
+
+            _beggarsGuild.CreateNpcs(
+                dataLoader.LoadNpcsFromJson(
+                    Paths.pathToBeggarsJsonFile));
+
+            _foolsGuild.CreateNpcs(
+                dataLoader.LoadNpcsFromJson(
+                    Paths.pathToFoolsJsonFile));
         }
 
         public Meeting CreateRandomGuildMeeting()
