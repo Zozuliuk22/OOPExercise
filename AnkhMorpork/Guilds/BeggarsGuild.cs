@@ -56,7 +56,7 @@ namespace AnkhMorpork.Guilds
             }
         }
 
-        protected internal override Npc GetActiveNpc()
+        public override Npc GetActiveNpc()
         {
             _activeNpc = (BeggarNpc)base.GetActiveNpc();
             return _activeNpc;

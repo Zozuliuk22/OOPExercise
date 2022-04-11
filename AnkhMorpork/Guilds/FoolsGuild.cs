@@ -19,7 +19,7 @@ namespace AnkhMorpork.Guilds
 
         public override ConsoleColor GuildColor => ConsoleColor.Yellow;
 
-        protected internal void CreateNpcs(IEnumerable<Npc> npcs)
+        public void CreateNpcs(IEnumerable<Npc> npcs)
         {
             if (npcs is null)
                 throw new ArgumentNullException("The collection of NPCs cannot be null.");
@@ -33,7 +33,7 @@ namespace AnkhMorpork.Guilds
             }
         }
 
-        protected internal void CreateNpcs(JArray npcs)
+        public void CreateNpcs(JArray npcs)
         {
             if (npcs is null)
                 throw new ArgumentNullException("The collection of NPCs cannot be null.");
@@ -54,7 +54,7 @@ namespace AnkhMorpork.Guilds
             }
         }
 
-        protected internal override Npc GetActiveNpc()
+        public override Npc GetActiveNpc()
         {
             _activeNpc = (FoolNpc)base.GetActiveNpc();
             return _activeNpc;

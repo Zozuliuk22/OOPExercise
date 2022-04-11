@@ -27,12 +27,16 @@ namespace AnkhMorpork
 
         public void EarnMoney(decimal bonus)
         {
+            if (bonus < 0)
+                throw new ArgumentException("Bonus must be bigger or equal then zero.");
             CurrentBudget += bonus;
             _score += 1;            
         }
 
         public void LoseMoney(decimal fee)
         {
+            if (fee < 0 || fee > CurrentBudget)
+                throw new ArgumentException("Fee must be bigger or equal then zero and less or equal than current budget.");
             CurrentBudget -= fee;
             _score += 1;
         }

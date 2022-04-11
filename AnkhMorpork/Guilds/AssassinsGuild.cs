@@ -78,7 +78,7 @@ namespace AnkhMorpork.Guilds
             return true;
         }
 
-        protected internal override Npc GetActiveNpc()
+        public override Npc GetActiveNpc()
         {
             if (_activeNpc.IsOccupied)
                 throw new Exception("Before this, player must enter fee and check contract.");
@@ -96,7 +96,7 @@ namespace AnkhMorpork.Guilds
             {
                 _activeNpc.TakeContract();
                 player.LoseMoney(_enteredFee);
-                return $"You are lucky! Assassin {_activeNpc.ToString()} went to fulfill the contract.";
+                return $"You are lucky! Assassin {_activeNpc} went to fulfill the contract.";
             }
         }
 

@@ -13,7 +13,7 @@ namespace AnkhMorpork
 
         public virtual ConsoleColor GuildColor => ConsoleColor.White;
 
-        protected internal virtual Npc GetActiveNpc()
+        public virtual Npc GetActiveNpc()
         {
             if (!Npcs.Equals(null) && Npcs.Count > 0)
                 return Npcs[new Random().Next(0, Npcs.Count)];
