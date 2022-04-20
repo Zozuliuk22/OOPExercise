@@ -1,30 +1,45 @@
 ﻿using System;
 using AnkhMorpork;
+using OOPExercise.Properties;
 
 namespace OOPExercise
 {
     internal static class ConsoleViewer
-    {
+    {       
+        private static string GetLongTitle(string title)
+        {
+            return "\n" + new string('\t', 5) + title + "\n";
+        }
+
+        private static string GetShortTitle(string title)
+        {
+            return new string('\t', 7) + title + "\n";
+        }
+
         internal static void ShowWelcomeWord()
-        {            
+        {
             Console.WindowWidth = 150;
             Console.WindowHeight = 30;
+
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\n\t\t\t\t\tWelcome to the fine city of Ankh-Morpork!\n");
+            Console.WriteLine(GetLongTitle(ScenarioTexts.WelcomeTitle));
+
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Ankh-Morpork lies on the River Ankh (the most polluted waterway on the Discworld and reputedly solid enough to walk on), " +
-                "\nwhere the fertile loam of the Sto Plains meets the Circle Sea. This, naturally, puts it in an excellent trading position.\n");
-            Console.WriteLine("The central city divides more or less into Ankh (the posh part) and Morpork (the humble part, " +
-                "\nwhich includes the slum area known as \"the Shades\"), which are separated by the River Ankh.\n");
+            Console.WriteLine(ScenarioTexts.WelcomeMessagePart1);
+            Console.WriteLine(ScenarioTexts.WelcomeMessagePart2 + "\n");
+            Console.WriteLine(ScenarioTexts.WelcomeMessagePart3);
+            Console.WriteLine(ScenarioTexts.WelcomeMessagePart4 + "\n");
+            
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\t\t\t\t\t\t\tINSTRUCTIONS\n");
+            Console.WriteLine(GetShortTitle(ScenarioTexts.InstructionsTitle));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("There are not lots of rules. All that you must know: You have 100 AM$ at the beginning of the game.");
-            Console.WriteLine("In this city you will be go along streets and have meetings with different members of local guilds.");
-            Console.WriteLine("Read guidance closely as the game progresses. And my advice for you : Try to survive as long as possible.");
-            Console.WriteLine();
+
+            Console.WriteLine(ScenarioTexts.InstructionsPoint1);
+            Console.WriteLine(ScenarioTexts.InstructionsPoint2);
+            Console.WriteLine(ScenarioTexts.InstructionsPoint3 + "\n");
+
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("It can be dangerous to walk the streets. So watch out!\n");
+            Console.WriteLine(ScenarioTexts.WelcomeWarningMessage + "\n");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -57,7 +72,7 @@ namespace OOPExercise
 
             while (choice != 1 && choice != 2)
             {
-                Console.Write("Please, enter your choice (1 or 2) to continue: ");
+                Console.Write(ScenarioTexts.EnterChoiceMessage);
                 Int32.TryParse(Console.ReadLine(), out choice);
             }
 
@@ -69,7 +84,8 @@ namespace OOPExercise
         {
             var name = String.Empty;
 
-            Console.Write("Hello, dear player! Please, enter your correct name to start the game trip: ");
+            Console.Write(ScenarioTexts.EnterPlayerNameMessage);
+
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             name = Console.ReadLine().Trim();
             Console.ForegroundColor = ConsoleColor.White;
@@ -92,9 +108,11 @@ namespace OOPExercise
             if(meeting is null)
                 throw new ArgumentNullException("The meeting value cannot be null.");
 
-            Console.Write("\nYou go along the streets of Ankh-Morpork and ... ");
+            Console.Write("\n" + ScenarioTexts.WalkingMessage);
+
             Console.ForegroundColor= meeting.Guild.GuildColor;
             Console.WriteLine(meeting);
+
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n" + meeting.Guild.WelcomeMessage); 
 
@@ -109,8 +127,10 @@ namespace OOPExercise
         internal static void ShowMeetingResultInfo(string result)
         {
             Console.WriteLine();
+
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine(result);
+
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
         }
@@ -126,7 +146,7 @@ namespace OOPExercise
 
             while (fee <= 0 || fee > player.CurrentBudget)
             {
-                Console.Write("Please, enter a fee as much as you want (but not more than you have): ");
+                Console.Write(ScenarioTexts.EnterFeeMessage);
                 Decimal.TryParse(Console.ReadLine(), out fee);
             }
             Console.ForegroundColor = ConsoleColor.White;
