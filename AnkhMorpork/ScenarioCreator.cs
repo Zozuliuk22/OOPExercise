@@ -31,6 +31,9 @@ namespace AnkhMorpork
                 .ToList();
         }        
 
+        /// <summary>
+        /// Initialise all exist guilds by data from Json files in the InputData folder.
+        /// </summary>
         public void InitialiseAllGuilds()
         {
             var dataLoader = new DataLoader();
@@ -48,6 +51,10 @@ namespace AnkhMorpork
                     Paths.pathToFoolsJsonFile));
         }
 
+        /// <summary>
+        /// Create a meeting with the random Guild.
+        /// </summary>
+        /// <returns>The created Meeting object.</returns>
         public Meeting CreateRandomGuildMeeting()
         {
             return (Meeting)_methodsCreateGuild[new Random()
@@ -55,6 +62,10 @@ namespace AnkhMorpork
                                                     .Invoke(this, null);  
         }
 
+        /// <summary>
+        /// Create a meeting with the Thieves' Guild.
+        /// </summary>
+        /// <returns>The created Meeting object with the Thieves' Guild.</returns>
         private Meeting CreateThievesGuildMeeting()
         {
             _thievesGuild.AddTheft();
@@ -72,24 +83,41 @@ namespace AnkhMorpork
             }
         }
 
+        /// <summary>
+        /// Create a meeting with the Beggars' Guild.
+        /// </summary>
+        /// <returns>The created Meeting object with the Beggars' Guild.</returns>
         private Meeting CreateBeggarsGuildMeeting()
         {
             _currentMeeting = new Meeting(_beggarsGuild, _beggarsGuild.GetActiveNpc());
             return _currentMeeting;
         }
 
+        /// <summary>
+        /// Create a meeting with the Assassins' Guild.
+        /// </summary>
+        /// <returns>The created Meeting object with the Assassins' Guild.</returns>
         private Meeting CreateAssassinsGuildMeeting()
         {
             _currentMeeting = new Meeting(_assassinsGuild);
             return _currentMeeting;
         }
 
+        /// <summary>
+        /// Create a meeting with the Fools' Guild.
+        /// </summary>
+        /// <returns>The created Meeting object with the Fools' Guild.</returns>
         private Meeting CreateFoolsGuildMeeting()
         {
             _currentMeeting = new Meeting(_foolsGuild, _foolsGuild.GetActiveNpc());
             return _currentMeeting;
         }
 
+        /// <summary>
+        /// Accept the current meeting with some Guild and play a game with them.
+        /// </summary>
+        /// <param name="player">The Player object.</param>
+        /// <returns>The text-result of accepting a meeting with the exist guild.</returns>
         public string Accept(Player player)
         {
             if (_currentMeeting.Guild is ThievesGuild)
@@ -107,6 +135,11 @@ namespace AnkhMorpork
             return "This is unknown guild.";
         }
 
+        /// <summary>
+        /// Skip the current meeting with some Guild.
+        /// </summary>
+        /// <param name="player">The Player object.</param>
+        /// <returns>The text-result of skipping a meeting with the exist guild.</returns>
         public string Skip(Player player)
         {
             if (_currentMeeting.Guild is ThievesGuild)
@@ -124,6 +157,11 @@ namespace AnkhMorpork
             return "This is unknown guild.";
         }
 
+        /// <summary>
+        /// Use the entered fee by a player.
+        /// If the current meeting with a guild that is the Assassins' Guild, try to get a NPC for the meeting.
+        /// </summary>
+        /// <param name="fee">The entered fee by a player.</param>
         public void UseEnteredFee(decimal fee)
         {
             if(_currentMeeting.Guild is AssassinsGuild)

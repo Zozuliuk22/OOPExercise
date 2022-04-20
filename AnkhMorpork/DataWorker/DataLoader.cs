@@ -12,6 +12,12 @@ namespace AnkhMorpork
             _fileReader = fileReader ?? new FileReader();
         }
 
+        /// <summary>
+        /// Load NPC objects from a Json file and return the array of objects.
+        /// </summary>
+        /// <param name="path">The path to a file with Json objects.</param>
+        /// <returns>The array of Json objects.</returns>
+        /// <exception cref="ArgumentException">The file into the path doesn't contain any Json object.</exception>
         public JArray LoadNpcsFromJson(string path)
         {
             var json = _fileReader.Read(path);

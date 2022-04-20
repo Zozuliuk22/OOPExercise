@@ -8,6 +8,10 @@ namespace OOPExercise
 {
     internal class Program
     {
+        /// <summary>
+        /// Application entry point.
+        /// </summary>
+        /// <param name="args">Command line args.</param>
         static void Main(string[] args)
         {
             ConsoleViewer.ShowWelcomeWord();
