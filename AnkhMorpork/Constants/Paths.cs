@@ -1,9 +1,14 @@
-﻿namespace AnkhMorpork.Constants
+﻿using System;
+using System.Text.RegularExpressions;
+
+namespace AnkhMorpork.Constants
 {
     public static class Paths
     {
-        public const string pathToAssassinsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\AnkhMorpork\InputData\assassins.json";
-        public const string pathToBeggarsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\AnkhMorpork\InputData\beggars.json";
-        public const string pathToFoolsJsonFile = @"C:\Users\Віктор\Desktop\Valtech\OOPExercise\OOPExercise\AnkhMorpork\InputData\fools.json";
+        private const string _pattern = @"bin.*";
+        private static string _defaultPath = Regex.Replace(AppContext.BaseDirectory, _pattern, "");
+        public static string pathToAssassinsJsonFile = _defaultPath + @"InputData\assassins.json";
+        public static string pathToBeggarsJsonFile = _defaultPath + @"InputData\beggars.json";
+        public static string pathToFoolsJsonFile = _defaultPath + @"InputData\fools.json";
     }
 }

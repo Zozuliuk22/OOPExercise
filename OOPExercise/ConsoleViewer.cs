@@ -55,7 +55,7 @@ namespace OOPExercise
             Console.ForegroundColor = ConsoleColor.Cyan;
             int choice = 0;
 
-            while (!(choice == 1 || choice == 2))
+            while (choice != 1 && choice != 2)
             {
                 Console.Write("Please, enter your choice (1 or 2) to continue: ");
                 Int32.TryParse(Console.ReadLine(), out choice);

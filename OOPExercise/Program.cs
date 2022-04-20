@@ -13,7 +13,7 @@ namespace OOPExercise
             ConsoleViewer.ShowWelcomeWord();
             var name = ConsoleViewer.GetPlayerName();
 
-            var scenario = new ScenarioCreator();
+            var scenario = new ScenarioCreator();            
             var player = new Player(name);
             
             try
