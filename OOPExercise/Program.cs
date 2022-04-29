@@ -8,12 +8,16 @@ namespace OOPExercise
 {
     internal class Program
     {
+        /// <summary>
+        /// Application entry point.
+        /// </summary>
+        /// <param name="args">Command line args.</param>
         static void Main(string[] args)
         {
             ConsoleViewer.ShowWelcomeWord();
             var name = ConsoleViewer.GetPlayerName();
 
-            var scenario = new ScenarioCreator();
+            var scenario = new ScenarioCreator();            
             var player = new Player(name);
             
             try

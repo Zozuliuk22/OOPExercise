@@ -16,6 +16,11 @@ namespace AnkhMorpork.Builders
             _assassin.Name = name;
         }
 
+        /// <summary>
+        /// Set the minimum reward for an Assassin.
+        /// </summary>
+        /// <param name="minReward">The Assassin's minimum reward.</param>
+        /// <exception cref="ArgumentException">Minimum reward limit cannot be less or equal than zero.</exception>
         public void SetMinReward(decimal minReward)
         {
             if (minReward > 0)
@@ -24,6 +29,11 @@ namespace AnkhMorpork.Builders
                 throw new ArgumentException("Minimum reward limit cannot be less or equal than zero.");
         }
 
+        /// <summary>
+        /// Set the maximum reward for an Assassin.
+        /// </summary>
+        /// <param name="maxReward">The Assassin's maximum reward.</param>
+        /// <exception cref="ArgumentException">Maximum reward limit cannot be less or equal than minimum reward limit.</exception>
         public void SetMaxReward(decimal maxReward)
         {
             if (maxReward > _assassin.MinReward)
@@ -42,6 +52,9 @@ namespace AnkhMorpork.Builders
             return _assassin;
         }
 
+        /// <summary>
+        /// Set the minimum and maximum random rewards for an Assassin.
+        /// </summary>
         public void SetRandomRewandRange()
         {
             _assassin.MinReward = new Random().Next(1, 16);

@@ -22,6 +22,9 @@ namespace AnkhMorpork.Guilds
 
         public int CurrentNumberThefts { get; private set; } = 0;
 
+        /// <summary>
+        /// To add one more theft to the current number of thefts.
+        /// </summary>
         public void AddTheft() => CurrentNumberThefts += 1;
 
         public override string PlayGame(Player player)

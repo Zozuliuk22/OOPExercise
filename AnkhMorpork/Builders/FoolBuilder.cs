@@ -16,6 +16,10 @@ namespace AnkhMorpork.Builders
             _fool.Name = name;
         }
 
+        /// <summary>
+        /// Set the practice of fools' practices.
+        /// </summary>
+        /// <param name="practice">The practice of fools' practices.</param>
         public void SetPractice(FoolsPractice practice)
         {
             _fool.Practice = practice;
@@ -32,6 +36,9 @@ namespace AnkhMorpork.Builders
             return _fool;
         }
 
+        /// <summary>
+        /// Set the random practice of fools' practices.
+        /// </summary>
         public void SetRandomPractice()
         {
             var practies = Enum.GetValues(typeof(FoolsPractice));
@@ -39,6 +46,9 @@ namespace AnkhMorpork.Builders
             SetPracticeInfo();
         }
 
+        /// <summary>
+        /// Set the bonus and the full practice name according to the practice.
+        /// </summary>
         private void SetPracticeInfo()
         {
             _fool.FullPracticeName = PracticesInfo.FoolsPracticeInfo[_fool.Practice].Item1;

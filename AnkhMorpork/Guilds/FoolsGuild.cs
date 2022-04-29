@@ -19,6 +19,12 @@ namespace AnkhMorpork.Guilds
 
         public override ConsoleColor GuildColor => ConsoleColor.Yellow;
 
+        /// <summary>
+        /// To add unique NPCs to the global list from the local list of npcs.
+        /// </summary>
+        /// <param name="npcs">The local list of npcs.</param>
+        /// <exception cref="ArgumentNullException">The collection of NPCs cannot be null.</exception>
+        /// <exception cref="ArgumentException">The same fool is already exist.</exception>
         public void CreateNpcs(IEnumerable<Npc> npcs)
         {
             if (npcs is null)
@@ -33,6 +39,12 @@ namespace AnkhMorpork.Guilds
             }
         }
 
+        /// <summary>
+        /// To add unique NPCs to the global list from the local Json array of npcs.
+        /// </summary>
+        /// <param name="npcs">The local Json array of npcs.</param>
+        /// <exception cref="ArgumentNullException">The collection of NPCs cannot be null.</exception>
+        /// <exception cref="ArgumentException">The same fool is already exist.</exception>
         public void CreateNpcs(JArray npcs)
         {
             if (npcs is null)
